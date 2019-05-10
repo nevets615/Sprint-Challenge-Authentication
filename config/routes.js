@@ -14,7 +14,7 @@ module.exports = server => {
 function register(req, res) {
   const creds = req.body;
   creds.password = bcrypt.hashSync(creds.password, 10);
-  db(users)
+  db("users")
     .insert(creds)
     .then(ids => {
       const id = ids[0];
