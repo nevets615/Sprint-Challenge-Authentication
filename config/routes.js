@@ -37,18 +37,18 @@ function register(req, res) {
 function login(req, res) {
   const creds = req.body;
   db("users")
-    .where("usersname", creds.username)
+    .where("username", creds.username)
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
-        const token = generateToken(users);
+        const token = generateToken(user);
         res.json({ message: user.username, token });
       } else {
         res.status(401).send("not valad");
       }
     })
     .catch(err => {
-      res.status(500).send(err);
+      res.status(500).json({err: err.message});
     });
 }
 
